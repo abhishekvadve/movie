@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% load static %}
+{% block content %}
+
+<style>
+
+    
+    .icon-name {
+        display: none;
+    }
+    .icon:hover icon-name {
+        display: block;
+    }
+</style>
+<nav class="nav__cont">
+    <ul class="nav">
+      <li class="nav__items"><a style="color:#ffff;" href="">
+        <i class="icon fas fa-user-circle"><span class="icon-name">Name</span></i>
+        </a>
+      </li>
+      
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-search"></i>
+        </a>
+      </li>
+        
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-home"></i>
+       </a>
+      </li>
+        
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-tv"></i>
+       </a>
+      </li>
+          
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-film"></i>
+       </a>
+      </li>
+      
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+          
+    </ul>
+  </nav>
+  
+<div class="container">
+    <div class="row">
+        <div class="content">
+
+            <video class="ad-movie-trailer" width="100%" height="100%" controls>
+                <source src="video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <h1 class="text-overlay">Movie Name</h1>
+            <p class="text-overlay">Movie Description</p>
+        </div>
+    </div>
+
+
+</div>
+<style>
+    .ad-movie-trailer {
+        width: 285%;
+        height: 300px;
+        margin-left: -100px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+    .scrollable-row {
+        display: flex;
+        overflow-x: hidden; /* Changed from 'auto' to 'hidden' */
+        white-space: nowrap;
+        gap: 20px; /* Adjust as needed */
+        position: relative;
+        margin-left: 100px;
+        height: 300px;
+        padding-top: 40px;
+        padding-left: 40px;
+    }
+
+    .card-home {
+        width: 200px; /* Adjust as needed */
+        height: 250px; /* Adjust as needed */
+        position: relative;
+        transform: scale(1); /* Adjust scale as needed */
+    }
+
+    .card-home:hover {
+        transform: scale(1.1);;
+        transition: transform 0.3s ease;
+        z-index: 1;
+    }
+
+    .card-image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .card-details {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+        color: #fff;
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card-details h4, .card-details p {
+        margin: 0;
+    }
+
+    .card-details h4 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: break-spaces;
+    }
+
+    .card-home:hover .card-details {
+        opacity: 1;
+    }
+
+    {% comment %} .scroll-button {
+        position: absolute;
+        top: calc(50% - 20px); /* Adjust based on button height */
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    } {% endcomment %}
+
+    .scroll-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .scroll-left {
+        left: 0;
+        margin-left: 100px;
+    }
+
+    .scroll-right {
+        right: 40px;
+    
+    }
+
+    .section-title{
+        text-align: start;
+        margin-left: 100px;
+        font-weight: bold;
+        padding: 15px;
+
+    }
+    
+</style>
+<div class="section-title">
+    <h2>Latest Movies</h2>
+</div>
+<div class="scrollable-row">
+    
+    {% for movie in movies %}
+    <div class="card-home">
+        <div class="card-image">
+            <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+        </div>
+        <div class="card-details">
+            <h4>{{ movie.title }}</h4>
+            <!-- Button to Watch Movie -->
+            <button class="btn btn-primary">
+                <a href="{% url 'main:detail' movie.id %}" style="color: white;">Watch Now</a>
+            </button>
+            <p>{{ movie.description }}</p>
+            <!-- Add other details as needed -->
+        </div>
+    </div>
+    {% endfor %}
+    <button class="scroll-button scroll-left">&lt;</button>
+<button class="scroll-button scroll-right">&gt;</button>
+</div>
+
+<script>
+    const container = document.querySelector('.scrollable-row');
+    const scrollLeftBtn = document.querySelector('.scroll-left');
+    const scrollRightBtn = document.querySelector('.scroll-right');
+
+    scrollLeftBtn.addEventListener('click', () => {
+        container.scrollBy({
+            left: -200, // Adjust scroll amount as needed
+            behavior: 'smooth'
+        });
+    });
+
+    container.addEventListener('scroll', () => {
+        // If scrolled to the right, show the left button
+        if (container.scrollLeft > 0 && container.scrollLeft < container.scrollWidth - container.clientWidth) {
+            scrollLeftBtn.style.display = 'block';
+        } else {
+            scrollLeftBtn.style.display = 'none';
+        }
+    });
+
+    scrollRightBtn.addEventListener('click', () => {
+        container.scrollBy({
+            left: 200, // Adjust scroll amount as needed
+            behavior: 'smooth'
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,168 @@
+{% load static %}
+{% block content %}
+<head>
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+</head>
+<style>
+    .video-container {
+        position: relative;
+        width: 100%;
+        height: 100%; 
+        overflow: hidden;
+
+    }
+      
+    video {
+        /* Make video to at least 100% wide and tall */
+        min-width: 100%; 
+        min-height: 100%; 
+      
+        /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+        width: auto;
+        height: -webkit-fill-available;
+      
+        /* Center the video */
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        
+    }
+      
+    .overlay {
+        position: absolute;
+        bottom: 40%;
+        left: 10%; /* Adjust to position the overlay horizontally */
+        transform: translateY(50%);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+        z-index: 1; /* Ensure overlay is above the video */
+        padding: 10px; /* Add padding to the overlay */
+    }
+
+    .overlay-content {
+        margin-bottom: 10px;
+    }
+
+    .overlay-buttons {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .overlay-button {
+        padding: 10px;
+        background-color: #007bff; /* Blue color for buttons */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #movie-description{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 200px;
+    }
+            
+    body { 
+        background: #333;
+        color: #fff;
+        font-family: 'Oxygen', sans-serif;
+    }
+
+    .movie-details {
+        margin-top: 20px;
+        margin-left: 20px;
+        text-align: start;
+        color: #fff;
+    }
+
+    .movie-details h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .movie-details p {
+        font-size: 16px;
+    }
+    .video-js{
+        display: contents;
+    }
+    .movie-short-details{
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        gap: 10px;
+        font-weight: bold;
+
+    }
+    .overflow-des{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: break-spaces;
+        max-width: 400px;
+        text-align: start;  
+    }
+    .watch-now-btn{
+        width: 300px;
+        height: 65px;
+        font-size: larger;
+        font-weight: bold;
+        padding: 10px;
+        background-color: #ffff;
+        color: #000;
+        border: none;
+        
+    }
+    .wish-list-btn{
+        width: 20%;
+        height: 65px;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 10px;
+        background-color: #0000007d;
+        color: #fff;
+        border: none;
+    }
+</style>
+
+<style>
+
+    
+    .icon-name {
+        display: none;
+    }
+    .icon:hover icon-name {
+        display: block;
+    }
+</style>
+<div class="video-container">
+    <video
+    id="my-video"
+    autoplay
+    controls
+    class="video-js"
+    preload="auto"
+    poster="{{ movie.poster.url }}"
+    data-setup="{}"
+  >
+        <source type="video/mp4" src="{{movie.movie_file.url}}">
+        Your browser does not support the video tag.
+    </video>
+</div>
+<script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
+<script>
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+    });
+</script>
+{% endblock %}

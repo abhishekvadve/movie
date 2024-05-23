@@ -1,0 +1,392 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<head>
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+</head>
+<style>
+    .video-container {
+        position: relative;
+        width: 100%;
+        height: 500px; 
+        overflow: hidden;
+        padding-top: 56.25%; /* Aspect ratio: 16:9 */
+
+    }
+      
+    video {
+        /* Make video to at least 100% wide and tall */
+        min-width: 100%; 
+        min-height: 100%; 
+      
+        /* Setting width & height to auto prevents the browser from stretching or squishing the video */
+        width: auto;
+        height: -webkit-fill-available;
+      
+        /* Center the video */
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        
+    }
+      
+    .overlay {
+        position: absolute;
+        bottom: 40%;
+        left: 10%; /* Adjust to position the overlay horizontally */
+        transform: translateY(50%);
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+        z-index: 1; /* Ensure overlay is above the video */
+        padding: 10px; /* Add padding to the overlay */
+    }
+
+    .overlay-content {
+        margin-bottom: 10px;
+    }
+
+    .overlay-buttons {
+        display: flex;
+        justify-content: flex-start;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .overlay-button {
+        padding: 10px;
+        background-color: #007bff; /* Blue color for buttons */
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    #movie-description{
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        max-width: 200px;
+    }
+            
+    body { 
+        background: #333;
+        color: #fff;
+        font-family: 'Oxygen', sans-serif;
+    }
+
+    .movie-details {
+        margin-top: 20px;
+        margin-left: 20px;
+        text-align: start;
+        color: #fff;
+    }
+
+    .movie-details h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+
+    .movie-details p {
+        font-size: 16px;
+    }
+    .video-js{
+        display: contents;
+    }
+    .movie-short-details{
+        list-style-type: none;
+        padding: 0;
+        display: flex;
+        gap: 10px;
+        font-weight: bold;
+
+    }
+    .overflow-des{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: break-spaces;
+        max-width: 400px;
+        text-align: start;  
+    }
+    .watch-now-btn{
+        width: 300px;
+        height: 65px;
+        font-size: larger;
+        font-weight: bold;
+        padding: 10px;
+        background-color: #ffff;
+        color: #000;
+        border: none;
+        
+    }
+    .wish-list-btn{
+        width: 20%;
+        height: 65px;
+        font-size: 15px;
+        font-weight: bold;
+        padding: 10px;
+        background-color: #0000007d;
+        color: #fff;
+        border: none;
+    }
+</style>
+
+<style>
+
+    
+    .icon-name {
+        display: none;
+    }
+    .icon:hover icon-name {
+        display: block;
+    }
+</style>
+<nav class="nav__cont">
+    <ul class="nav">
+      <li class="nav__items"><a style="color:#ffff;" href="">
+        <i class="icon fas fa-user-circle"><span class="icon-name">Name</span></i>
+        </a>
+      </li>
+      
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-search"></i>
+        </a>
+      </li>
+        
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-home"></i>
+       </a>
+      </li>
+        
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-tv"></i>
+       </a>
+      </li>
+          
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-film"></i>
+       </a>
+      </li>
+      
+      <li class="nav__items ">
+        <a class='name' style="color:#ffff" href="">
+        <i class="fas fa-th-large"></i>
+        </a>
+      </li>
+          
+    </ul>
+  </nav>
+  
+<div class="video-container">
+    <video
+    id="my-video"
+    autoplay
+    class="video-js"
+    preload="auto"
+    poster="{{ movie.poster.url }}"
+    data-setup="{}"
+  >
+        <source type="video/mp4" src="{{movie.trailer.url}}">
+        Your browser does not support the video tag.
+    </video>
+    <div class="overlay">
+        <!-- Dynamic content -->
+        <div class="overlay-content" id="overlay-title">
+            <img src="{{ movie.logo.url }}" alt="{{ movie.title }}" style="width:100%;height:100%;">
+        </div>
+        <div class="overlay-content" id="overlay-description">
+            <ul class="movie-short-details">
+                <li>{{ movie.year }} | </li>
+                <li>{{ movie.duration }} | </li>
+                <li>{{ movie.language }} | </li>
+                <li>{{ movie.movie_rating }}</li>
+            </ul>
+        </div>
+        {% comment %} <div class="overlay-content" id="overlay-title">{{movie.title}}</div> {% endcomment %}
+        <div class="overlay-content overflow-des" id="overlay-description">{{movie.bio}}</div>
+        <div class="overlay-content" id="overlay-description">
+            <ul class="movie-short-details">
+                <li>{{ movie.genre }} | </li>
+            </ul>
+        </div>
+        
+        <!-- Buttons -->
+        <div class="overlay-buttons">
+            <a href="{% url 'main:watch' movie.id %}">
+            <button class="overlay-button watch-now-btn"><i style="font-size:15px;" class="fas fa-play"></i> <span style="margin-left: 5px;">Watch Now</button>
+            </a>
+                <button class="overlay-button wish-list-btn">
+                <i class="fas fa-plus"></i>
+
+            </button>
+        </div>
+    </div>
+</div>
+
+{% comment %} <div class="movie-details" id="movie-details">
+    <h2>{{movie.title}}</h2>
+    <p>{{movie.bio}}</p>
+    
+    <!-- Add other movie details as needed -->
+</div> {% endcomment %}
+<style>
+    .ad-movie-trailer {
+        width: 285%;
+        height: 300px;
+        margin-left: -100px;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+    .scrollable-row {
+        display: flex;
+        overflow-x: hidden; /* Changed from 'auto' to 'hidden' */
+        white-space: nowrap;
+        gap: 20px; /* Adjust as needed */
+        position: relative;
+        margin-left: 100px;
+        height: 330px;
+        padding-top: 40px;
+        padding-left: 40px;
+    }
+
+    .card-home {
+        width: 200px; /* Adjust as needed */
+        height: 250px; /* Adjust as needed */
+        position: relative;
+        transform: scale(1); /* Adjust scale as needed */
+    }
+
+    .card-home:hover {
+        transform: scale(1.1);;
+        transition: transform 0.3s ease;
+        z-index: 1;
+    }
+
+    .card-image {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .card-details {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        background-color: rgba(0, 0, 0, 0.5); /* Adjust opacity as needed */
+        color: #fff;
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card-details h4, .card-details p {
+        margin: 0;
+    }
+
+    .card-details h4 {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: break-spaces;
+    }
+
+    .card-home:hover .card-details {
+        opacity: 1;
+    }
+
+    {% comment %} .scroll-button {
+        position: absolute;
+        top: calc(50% - 20px); /* Adjust based on button height */
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    } {% endcomment %}
+
+    .scroll-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .scroll-left {
+        left: 0;
+        margin-left: 100px;
+    }
+
+    .scroll-right {
+        right: 40px;
+    
+    }
+
+    .section-title{
+        text-align: start;
+        margin-left: 100px;
+        font-weight: bold;
+        padding: 15px;
+
+    }
+    
+</style>
+<div class="recommendations">
+    <h2>Recommendations</h2>
+    <div class="scrollable-row">
+        {% for recommend in movie_recommendations %}
+        <div class="card-home">
+            <div class="card-image">
+                <img src="{{ recommend.poster.url }}" alt="{{ recommend.title }}">
+            </div>
+            <div class="card-details">
+                <h4>{{ recommend.title }}</h4>
+                <!-- Button to Watch Movie -->
+                <button class="btn btn-primary">
+                    <a href="{% url 'main:detail' recommend.id %}" style="color: white;">Watch Now</a>
+                </button>
+                <p>{{ recommend.description }}</p>
+                <!-- Add other details as needed -->
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script>
+    const video = document.getElementById('background-video');
+    const overlay = document.getElementById('overlay');
+
+    video.addEventListener('playing', function() {
+        // Hide the overlay when the video starts playing
+        overlay.style.display = 'none';
+    });
+</script>
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+{% endblock %}
