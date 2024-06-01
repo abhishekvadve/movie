@@ -58,51 +58,13 @@ class Movie(models.Model):
     duration = models.CharField(max_length=100, blank=True, null=True)
     year = models.IntegerField()
     movie_rating = models.CharField(max_length=100, choices=RATINGS, default='U')
-    movie_file = models.FileField(upload_to='movies/',default='movies/default.mp4')
     def __str__(self):
         return self.title
     
-    def save(self, *args, **kwargs):
-        if not self.duration:  # Check if duration is not already set
-            if self.movie_file:
-                file_path = self.movie_file.path
-                if os.path.exists(file_path):
-                    duration = self.get_video_duration(file_path)
-                    self.duration = duration
-                    # Add title "Movie 1"
-                    title = "Movie 1"
-                    
-                    # Generate random credits
-                    credits = "Random Credits: "
-                    for _ in range(5):  # Change 5 to the desired number of credits
-                        credits += random.choice(string.ascii_letters)  # Add random letters
-                    
-                    # Create a text clip for title
-                    title_clip = TextClip(title, fontsize=70, color='white')
-                    title_clip = title_clip.set_duration(5)  # Duration of title clip (in seconds)
-                    
-                    # Create a text clip for credits
-                    credits_clip = TextClip(credits, fontsize=30, color='white')
-                    credits_clip = credits_clip.set_duration(10)  # Duration of credits clip (in seconds)
-                    
-                    # Concatenate title and credits clips with the movie clip
-                    final_clip = concatenate_videoclips([title_clip, credits_clip, self.movie_file])
-                    
-                    # Save the final concatenated clip
-                    
-                    # Finally, call the save method of the parent class
-        super().save(*args, **kwargs)
+    
         
 
-    def get_video_duration(self, file_path):
-        try:
-            clip = VideoFileClip(file_path)
-            duration = clip.duration
-            clip.close()
-            return duration
-        except Exception as e:
-            print("Error getting video duration:", e)
-            return None
+
         
 
 

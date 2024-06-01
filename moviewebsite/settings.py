@@ -26,11 +26,24 @@ SECRET_KEY = "django-insecure-)+rfuh)x#r1i%%fu78kq%+*plvj)&y0&r+g3%zpxk00w*@gw+=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*','https://8000-idx-movie-1716875326611.cluster-bs35cdu5w5cuaxdfch3hqqt7zm.cloudworkstations.dev']
 
 
 MOVIEPY_IMAGEMAGICK_PATH = 'C:\Program Files\ImageMagick-7.1.1-Q16-HDRI'
 
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = False  # Set to True if you are using HTTPS
+
+# Security middleware settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_SSL_REDIRECT = False  # Set to True if you are using HTTPS
+SESSION_COOKIE_SECURE = False  # Set to True if you are using HTTPS
+CSRF_COOKIE_SECURE = False  # Set to True if you are using HTTPS
+
+#Trusted domain
+CSRF_TRUSTED_ORIGINS = ['https://8000-idx-movie-1716875326611.cluster-bs35cdu5w5cuaxdfch3hqqt7zm.cloudworkstations.dev']
 
 # Application definition
 
