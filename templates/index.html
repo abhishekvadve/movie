@@ -58,13 +58,16 @@
     <div class="row">
         <div class="content">
 
-            <video class="ad-movie-trailer" width="100%" height="100%" controls>
-                <source src="video.mp4" type="video/mp4">
+            <video class="ad-movie-trailer" width="100%" height="100%" nocontrols autoplay loop>
+                <source src="https://cdn.pixabay.com/video/2024/01/28/198358-907598215_large.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
 
-            <h1 class="text-overlay">Movie Name</h1>
-            <p class="text-overlay">Movie Description</p>
+            <div class="text-overlay">
+                <h1>Movie Name</h1>
+            <p>Movie Description</p>
+            </div>
+            
         </div>
     </div>
 
@@ -72,15 +75,33 @@
 </div>
 <style>
     .ad-movie-trailer {
-        width: 285%;
+        width: 330%;
         height: 300px;
         margin-left: -100px;
         border-bottom-right-radius: 10px;
         border-bottom-left-radius: 10px;
     }
+
+    .text-overlay {
+        width: 330%;
+
+        position: relative;
+        bottom: 111px;
+        left: -100px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 16px;
+        backdrop-filter: blur(10px);  /* Apply blur effect */
+        -webkit-backdrop-filter: blur(10px); /* Safari support */
+    }
+
     .scrollable-row {
         display: flex;
         overflow-x: hidden; /* Changed from 'auto' to 'hidden' */
+        overflow-y: hidden;
         white-space: nowrap;
         gap: 20px; /* Adjust as needed */
         position: relative;
@@ -166,6 +187,7 @@
         padding: 10px;
         cursor: pointer;
         border-radius: 50%;
+        z-index: 999;
     }
 
     .scroll-left {
@@ -185,8 +207,19 @@
         padding: 15px;
 
     }
+
+    .ad-movie-trailer {
+        background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5));
+    }
+
+    .content video {
+        object-fit: cover;
+        border-radius: 10px;
+
+    }
     
 </style>
+<section id="latest" class="latest-movies-section">
 <div class="section-title">
     <h2>Latest Movies</h2>
 </div>
@@ -212,6 +245,34 @@
     <button class="scroll-button scroll-left">&lt;</button>
 <button class="scroll-button scroll-right">&gt;</button>
 </div>
+</section>
+<section id="for-you" class="for-you-section">
+    <div class="section-title">
+        <h2>For You</h2>
+    </div>
+    <div class="scrollable-row">
+        {% for movie in movies %}
+        <div class="card-home">
+            <div class="card-image">
+                <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+            </div>
+            <div class="card-details">
+                <h4>{{ movie.title }}</h4>
+                <!-- Button to Watch Movie -->
+                <button class="btn btn-primary">
+                    <a href="{% url 'main:detail' movie.id %}" style="color: white;">Watch Now</a>
+                </button>
+                <p>{{ movie.description }}</p>
+                <p>{{ movie.title }} </p>
+                <!-- Add other details as needed -->
+            </div>
+        </div>
+        {% endfor %}
+        <button class="scroll-button scroll-left">&lt;</button>
+    <button class="scroll-button scroll-right">&gt;</button>
+    </div>
+</section>
+
 
 <script>
     const container = document.querySelector('.scrollable-row');
