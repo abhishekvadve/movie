@@ -150,19 +150,50 @@
     id="my-video"
     autoplay
     controls
+    settings
     class="video-js"
     preload="auto"
+    preload="metadata"
     poster="{{ movie.poster.url }}"
     data-setup="{}"
   >
-        <source type="video/mp4" src="{{movie.movie_file.url}}">
+        <source type="video/mp4" src="{{movie.link}}" data-src="{{movie.link}}">
         Your browser does not support the video tag.
     </video>
 </div>
 <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
 <script>
-    document.addEventListener('contextmenu', function(event) {
-        event.preventDefault();
-    });
-</script>
+    document.addEventListener("DOMContentLoaded", function() {
+            const video = document.getElementById('my-video');
+            const source = video.querySelector('source');
+
+            // Function to load the video
+            const loadVideo = () => {
+                const dataSrc = source.getAttribute('data-src');
+                if (dataSrc) {
+                    source.setAttribute('src', dataSrc);
+                    video.load();
+                } else {
+                    console.error('No data-src attribute found for video source.');
+                }
+            };
+
+            // Check if IntersectionObserver is supported
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver((entries, observer) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            loadVideo();
+                            observer.disconnect();
+                        }
+                    });
+                }, { threshold: 0.25 });
+
+                observer.observe(video);
+            } else {
+                // Fallback if IntersectionObserver is not supported
+                loadVideo();
+            }
+        });
+    </script>
 {% endblock %}
