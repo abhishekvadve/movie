@@ -1,0 +1,534 @@
+{% block content %}
+{% load static %}
+
+    {% if request.path == "/users/login/" %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f1f1;
+        }
+        .form-step {
+            display: none;
+        }
+        
+        .form-step-active {
+            display: block;
+        }
+        .parent-login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+        }
+        .preview-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+        }
+        #myVideo {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+        }
+        .login-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 85%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        .login-form {
+            width: 25%;
+            height: 56%;
+            background-color: white;
+            border-radius: 25px;
+            padding: 20px;
+            border: 1px solid #333;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-form form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group {
+            margin-bottom: 25px;
+            margin-top: 15px;
+        }
+        .form-group label {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .form-group input {
+            width: 100%;
+            height: 40px;
+            padding: 0 10px;
+            font-size: 16px;
+            border: 0px;
+            border-bottom: 1px solid #333;
+    
+        }
+        .form-group input:focus {
+            outline: none;
+        }
+        .login-form button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45%;
+            height: 30px;
+            background-color: #E4BD0E;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            border: 0px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .form-group-signin{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 15px;
+        }
+        .form-group-signin a {
+            font-size: 12px;
+            font-weight: 500;
+            color: #4D98CF;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .form-group-other-methods {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .form-group-other-methods button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45%;
+            height: 40px;
+            background-color: #D9D9D9;
+            color: #333;
+            font-size: 10px;
+            font-weight: 500;
+            border-radius: 15px;
+            cursor: pointer;
+            outline: none;
+        }
+        .form-group-other-methods button span {
+            margin-right: 7px;
+        }
+        hr{
+            margin: 10px 1px 1px -19px;
+            width: 112%;
+        }
+        .form-group-signup {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin-top: 40px;
+        }
+        .form-group-signup a {
+            font-size: 12px;
+            font-weight: 500;
+            color: #333;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .form-group-signup button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 35%;
+            height: 30px;
+            background-color: #4D98CF;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            border: 0px;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+    </style>
+    <div class="parent-login-page">
+        <div class="login-section">
+        
+            <div class="preview-section">
+                <img src="https://img.freepik.com/free-vector/cherry-tree_23-2147507453.jpg?t=st=1717655902~exp=1717659502~hmac=691ec09cbead4ac6ede93443ebbf02e43495c90539f91ac259e538ae18b4f8ef&w=740" alt="cherry blossom" style="width: 100%; height: 100%;">
+                
+            </div>
+            <div class="login-form">
+                <span style="margin-left: 80px;">
+                    <svg id="feedure-logo-hovered" width="160" height="60" viewBox="0 0 692 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M72.44 0.559994V5.73999H5.38V36.96H59.14V61.6H5.38V98H0.200001V0.559994H72.44ZM592.284 98H517.384V0.559994H555.324C563.444 0.559994 570.071 2.00666 575.204 4.9C580.244 7.69999 584.164 11.5267 586.964 16.38C589.764 21.2333 591.164 26.6 591.164 32.48C591.164 39.76 588.924 46.2933 584.444 52.08C579.964 57.7733 574.317 61.5533 567.504 63.42L592.284 98ZM526.204 5.73999L564.284 58.94C570.537 57.6333 575.717 54.5067 579.824 49.56C583.931 44.6133 585.984 38.92 585.984 32.48C585.984 27.3467 584.724 22.68 582.204 18.48C579.684 14.28 576.137 11.06 571.564 8.82C567.457 6.76666 562.091 5.73999 555.464 5.73999H526.204ZM522.564 9.09999V59.36H558.544L522.564 9.09999ZM522.564 92.82H582.484L562.044 64.4L557.704 64.54H522.564V92.82Z" fill="#E4BD0E"/>
+                        <path d="M102.433 0.559994H173.413V25.2H127.913V37.52H165.713V60.9H127.913V73.36H173.413V98H102.433V0.559994ZM206.066 0.559994H277.046V25.2H231.546V37.52H269.346V60.9H231.546V73.36H277.046V98H206.066V0.559994ZM309.698 98V0.559994H345.958C353.052 0.559994 359.585 2.33333 365.558 5.87999C371.625 9.42666 376.432 14.2333 379.978 20.3C383.525 26.2733 385.298 32.8067 385.298 39.9V58.66C385.298 65.7533 383.525 72.3333 379.978 78.4C376.432 84.3733 371.625 89.1333 365.558 92.68C359.585 96.2267 353.052 98 345.958 98H309.698ZM448.331 100.1C441.238 100.1 434.658 98.3267 428.591 94.78C422.618 91.2333 417.858 86.4733 414.311 80.5C410.765 74.4333 408.991 67.8533 408.991 60.76V0.559994H487.671V60.76C487.671 67.8533 485.898 74.4333 482.351 80.5C478.805 86.4733 473.998 91.2333 467.931 94.78C461.958 98.3267 455.425 100.1 448.331 100.1ZM620.597 0.559994H691.577V25.2H646.077V37.52H683.877V60.9H646.077V73.36H691.577V98H620.597V0.559994Z" fill="black"/>
+                    </svg>
+                </span>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Email</label>
+                        {{ form_login.email }}
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        {{ form_login.password }}
+                    </div>
+                    <div class="form-group-signin">
+                        <button type="submit">Sign In</button>
+                        <a href="/">Forgot Password?</a>
+                    </div>
+                    <hr>
+                    <div class="form-group-other-methods">
+                        <button type="button">
+                            <span>
+                                <svg width="24" height="22" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_1242_52)">
+                                    <path d="M33.9823 16.2994C33.9823 14.9884 33.8666 14.0317 33.6163 13.0396H17.3389V18.9569H26.8933C26.7008 20.4274 25.6606 22.642 23.3489 24.1301L23.3165 24.3282L28.4632 27.9952L28.8197 28.0279C32.0944 25.2463 33.9823 21.1537 33.9823 16.2994Z" fill="#4285F4"/>
+                                    <path d="M17.3382 31.8901C22.0191 31.8901 25.9488 30.4727 28.8191 28.0279L23.3483 24.1301C21.8843 25.0691 19.9195 25.7246 17.3382 25.7246C12.7536 25.7246 8.8625 22.9432 7.47541 19.0986L7.2721 19.1145L1.92057 22.9236L1.85059 23.1025C4.70151 28.3112 10.5575 31.8901 17.3382 31.8901Z" fill="#34A853"/>
+                                    <path d="M7.476 19.0986C7.11001 18.1065 6.89819 17.0434 6.89819 15.945C6.89819 14.8465 7.11001 13.7835 7.45675 12.7914L7.44705 12.5801L2.02846 8.70984L1.85118 8.7874C0.676173 10.9489 0.00195312 13.3761 0.00195312 15.945C0.00195312 18.5139 0.676173 20.941 1.85118 23.1025L7.476 19.0986Z" fill="#FBBC05"/>
+                                    <path d="M17.3382 6.16537C20.5937 6.16537 22.7896 7.45869 24.0418 8.53948L28.9346 4.14571C25.9297 1.57679 22.0191 0 17.3382 0C10.5575 0 4.70151 3.57875 1.85059 8.78742L7.45616 12.7915C8.8625 8.94693 12.7536 6.16537 17.3382 6.16537Z" fill="#EB4335"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_1242_52">
+                                    <rect width="34" height="32" fill="white"/>
+                                    </clipPath>
+                                    </defs>
+                                    </svg>
+                                    
+                            </span>
+                            Sign In with Google
+                        </button>
+                        <button type="button">
+                            <span>
+                                <svg width="24" height="22" viewBox="0 0 34 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M25.5 11H19.125V7C19.125 6.46957 19.3489 5.96086 19.7474 5.58579C20.1459 5.21071 20.6864 5 21.25 5H23.375V0H19.125C17.4342 0 15.8127 0.632141 14.6172 1.75736C13.4216 2.88258 12.75 4.4087 12.75 6V11H8.5V16H12.75V32H19.125V16H23.375L25.5 11Z" fill="#1976D2"/>
+                                    </svg>
+                                    
+                            </span>
+                            Sign In with Facebook
+                        </button>
+                </form>
+            </div>
+            <div class="form-group-signup">
+                <a href="{% url 'accounts:register' %}">Don't have an account? Make one</a>
+                <button type="button">
+                    Sign Up
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    {% else %}
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f1f1f1;
+        }
+        .form-step {
+            display: none;
+        }
+        .form-step-active {
+            display: block;
+        }
+        .parent-login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            flex-direction: column;
+        }
+        .preview-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+        }
+        .login-section {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .login-form {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 25px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #333;
+        }
+        .login-form form {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .form-group input {
+            width: 100%;
+            height: 40px;
+            padding: 0 10px;
+            font-size: 16px;
+            border: 0;
+            border-bottom: 1px solid #333;
+        }
+        .form-group input:focus {
+            outline: none;
+        }
+        .login-form button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 40px;
+            background-color: #E4BD0E;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            border: 0;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-bottom: 15px;
+        }
+        .form-group-signin,
+        .form-group-signup {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .form-group-signin a,
+        .form-group-signup a {
+            font-size: 12px;
+            font-weight: 500;
+            color: #4D98CF;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+        .form-group-other-methods {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .form-group-other-methods button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 45%;
+            height: 40px;
+            background-color: #D9D9D9;
+            color: #333;
+            font-size: 10px;
+            font-weight: 500;
+            border-radius: 15px;
+            cursor: pointer;
+            outline: none;
+        }
+        .form-group-other-methods button span {
+            margin-right: 7px;
+        }
+        hr {
+            margin: 10px 0;
+        }
+        .form-group-signup {
+            margin-top: 20px;
+        }
+        .form-group-signup button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 200px;
+            height: 40px;
+            background-color: #4D98CF;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            border: 0;
+            border-radius: 50px;
+            cursor: pointer;
+        }
+        .profile-image-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .profile-image-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #f1f1f1;
+            background-size: cover;
+            background-position: center;
+            margin-bottom: 10px;
+        }
+        .profile-image-register {
+            display: none;
+        }
+        .profile-image-input {
+            display: none;
+        }
+        .profile-image-label {
+            cursor: pointer;
+            color: #4D98CF;
+            text-decoration: underline;
+        }
+    </style>
+<div class="parent-login-page">
+        <div class="login-section">
+           
+            <div class="preview-section">
+                <img src="{% static 'img/svg/cherry-blossom-7081566.svg' %}" alt="cherry blossom" style="width: 100%; height: 100%;">
+            </div>
+            <div class="login-form">
+                <form id="multiStepForm" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <!-- Step 1 -->
+                    <div class="form-step form-step-active">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            {{ form_register.username }}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="next-step">Next</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2 -->
+                    <div class="form-step">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            {{ form_register.name }}
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            {{ form_register.email }}
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            {{ form_register.phone }}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="prev-step">Previous</button>
+                            <button type="button" class="next-step">Next</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3 -->
+                    <div class="form-step">
+
+                        <div class="form-group">
+                            <label for="password1">Password</label>
+                            {{ form_register.password1 }}
+                        </div>
+                        <div class="form-group">
+                            <label for="password2">Confirm Password</label>
+                            {{ form_register.password2 }}
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="prev-step">Previous</button>
+                            <button type="submit">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="form-group-signup">
+                <a href="{% url 'accounts:login' %}">Have an account? Sign In</a>
+                <button type="button">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const steps = Array.from(document.querySelectorAll('.form-step'));
+            const nextButtons = document.querySelectorAll('.next-step');
+            const prevButtons = document.querySelectorAll('.prev-step');
+            const profileImageInput = document.querySelector('.profile-image-input');
+            const profileImagePreview = document.getElementById('profileImagePreview');
+
+            nextButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    changeStep('next');
+                });
+            });
+
+            prevButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    changeStep('prev');
+                });
+            });
+
+            // Handle profile image preview
+            profileImageInput.addEventListener('change', function () {
+                const file = this.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        profileImagePreview.style.backgroundImage = `url('${e.target.result}')`;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            function changeStep(direction) {
+                const index = steps.findIndex(step => step.classList.contains('form-step-active'));
+                steps[index].classList.remove('form-step-active');
+                if (direction === 'next') {
+                    steps[index + 1].classList.add('form-step-active');
+                } else if (direction === 'prev') {
+                    steps[index - 1].classList.add('form-step-active');
+                }
+            }
+
+            // Initialize Google Places Autocomplete
+            const addressInput = document.querySelector('.address-autocomplete');
+            if (addressInput) {
+                const autocomplete = new google.maps.places.Autocomplete(addressInput);
+                autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
+            }
+        });
+    </script>
+
+    {% endif %}
+
+{% endblock %}
