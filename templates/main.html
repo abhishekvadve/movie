@@ -146,6 +146,10 @@
     }
 </style>
 <div class="video-container">
+    {% if 'https://youtu.be/' in movie.link %}
+    <iframe width="560" height="315" src="{{movie.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    {% else %}
+
     <video
     id="my-video"
     autoplay
@@ -160,6 +164,7 @@
         <source type="video/mp4" src="{{movie.link}}" data-src="{{movie.link}}">
         Your browser does not support the video tag.
     </video>
+    {% endif %}
 </div>
 <script src="https://vjs.zencdn.net/7.8.4/video.js"></script>
 <script>

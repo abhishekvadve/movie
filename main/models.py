@@ -50,7 +50,7 @@ class Movie(models.Model):
     title = models.CharField(max_length=100)
     logo = models.FileField(upload_to='logos/',default='media/1623408-t-9ec4d70dcf2b.webp')
     poster = models.FileField(upload_to='posters/',default='posters/default.jpg')
-    trailer = models.FileField(upload_to='trailers/',default='trailers/default.mp4')
+    trailer = models.CharField(max_length=100,default='https://www.youtube.com/watch?v=dQw4w9WgXcQ')
     language = models.CharField(max_length=100, choices=LANGUAGES)
     link = models.CharField(max_length=100)
     bio = models.TextField()

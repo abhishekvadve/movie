@@ -190,6 +190,10 @@
   </nav>
   
 <div class="video-container">
+
+    {% comment %}
+    if the link contains other than youtube
+    {% endcomment %}
     <video
     id="my-video"
     autoplay
@@ -198,7 +202,7 @@
     poster="{{ movie.poster.url }}"
     data-setup="{}"
   >
-        <source type="video/mp4" src="{{movie.trailer.url}}">
+        <source type="video/mkv" src="{{movie.trailer.url}}">
         Your browser does not support the video tag.
     </video>
     <div class="overlay">
@@ -212,7 +216,6 @@
                 <li>{{ movie.duration }} | </li>
                 <li>{{ movie.language }} | </li>
                 <li>{{ movie.movie_rating }}</li>
-                <li>{{ movie.link }}</li>
             </ul>
         </div>
         {% comment %} <div class="overlay-content" id="overlay-title">{{movie.title}}</div> {% endcomment %}
