@@ -53,7 +53,7 @@ def handle(self, *args, **kwargs):
             
             )]
         languages = random.choice(LANGUAGE)
-        api_key = 'cd49c2d35af7855097ab97cbbdd70f2a'  # Replace with your TMDb API key
+        api_key = 'API_KEY'  # Replace with your TMDb API key
         url = f'https://api.themoviedb.org/3/movie/popular?api_key={api_key}&language={languages}&page={movie_od}'
 
         response = requests.get(url)
