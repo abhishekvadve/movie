@@ -100,15 +100,29 @@
 
     .scrollable-row {
         display: flex;
-        overflow-x: hidden; /* Changed from 'auto' to 'hidden' */
+        overflow-x: scroll; /* Use 'scroll' instead of 'hidden' to enable scrolling */
         overflow-y: hidden;
         white-space: nowrap;
-        gap: 20px; /* Adjust as needed */
+        gap: 20px;
         position: relative;
-        margin-left: 100px;
+        /* margin-left: 100px; */ /* Remove this line */
         height: 300px;
         padding-top: 40px;
-        padding-left: 40px;
+        /* padding-left: 40px; */ /* Remove this line */
+    }
+
+    /* Adjust scroll buttons as needed */
+    .scroll-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 50%;
+        z-index: 999;
     }
 
     .card-home {
@@ -140,7 +154,7 @@
     }
 
     .card-details {
-        position: absolute;
+        position: relative;
         top: 0;
         left: 0;
         width: 100%;
@@ -177,7 +191,7 @@
         cursor: pointer;
     } {% endcomment %}
 
-    .scroll-button {
+    {% comment %} .scroll-button {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -188,7 +202,7 @@
         cursor: pointer;
         border-radius: 50%;
         z-index: 999;
-    }
+    } {% endcomment %}
 
     .scroll-left {
         left: 0;
@@ -228,7 +242,11 @@
     {% for movie in movies %}
     <div class="card-home">
         <div class="card-image">
+            {% if 'media/' in movie.poster %}
             <img src="{{ movie.poster.url }}" alt="{{ movie.title }}">
+            {% else %}
+            <img src="{{ movie.poster }}" alt="{{ movie.title }}">
+            {% endif %}
         </div>
         <div class="card-details">
             <h4>{{ movie.title }}</h4>
@@ -273,7 +291,6 @@
     </div>
 </section>
 
-
 <script>
     const container = document.querySelector('.scrollable-row');
     const scrollLeftBtn = document.querySelector('.scroll-left');
@@ -302,5 +319,6 @@
         });
     });
 </script>
+
 
 {% endblock %}

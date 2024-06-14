@@ -36,6 +36,7 @@
     .overlay {
         position: absolute;
         bottom: 40%;
+        width: min-content;
         left: 10%; /* Adjust to position the overlay horizontally */
         transform: translateY(50%);
         display: flex;
@@ -199,7 +200,7 @@
     autoplay
     class="video-js"
     preload="auto"
-    poster="{{ movie.poster.url }}"
+    poster="{{ movie.poster }}"
     data-setup="{}"
   >
         <source type="video/mkv" src="{{movie.trailer.url}}">
@@ -208,7 +209,7 @@
     <div class="overlay">
         <!-- Dynamic content -->
         <div class="overlay-content" id="overlay-title">
-            <img src="{{ movie.logo.url }}" alt="{{ movie.title }}" style="width:100%;height:100%;">
+            <img src="{{ movie.logo }}" alt="{{ movie.title }}" style="width:100%;height:100%;">
         </div>
         <div class="overlay-content" id="overlay-description">
             <ul class="movie-short-details">
@@ -368,7 +369,7 @@
         {% for recommend in movie_recommendations %}
         <div class="card-home">
             <div class="card-image">
-                <img src="{{ recommend.poster.url }}" alt="{{ recommend.title }}">
+                <img src="{{ recommend.poster }}" alt="{{ recommend.title }}">
             </div>
             <div class="card-details">
                 <h4>{{ recommend.title }}</h4>
